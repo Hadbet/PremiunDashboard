@@ -2,7 +2,7 @@
 
 include_once('db/db_Freight.php');
 
-$tipo = $_GET('tipo');
+$tipo = $_GET['tipo'];
 
 ContadorApu($tipo);
 
