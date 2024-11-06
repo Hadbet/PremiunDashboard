@@ -193,6 +193,9 @@
             </div>
         </div>
     </div>
+
+
+
     <div class="analytics-sparkle-area">
         <div class="container-fluid">
             <div class="row">
@@ -232,6 +235,23 @@
         </div>
     </div>
     <br>
+    <div class="analytics-sparkle-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">Grafica General del Año</h5>
+                            <div class="map-box">
+                                <div id="areaChartApu"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="product-sales-area mg-tb-30">
         <div class="container-fluid">
             <div class="row">
@@ -318,7 +338,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+
 
     contadoresIniciales();
     function contadoresIniciales() {
@@ -331,782 +354,122 @@
         });
     }
 
-	//Obtener la fecha actual
-	var fechaActual = new Date();
-	
-	// Obtener la fecha de inicio del mes actual
-	var fechaInicioMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
-	
-	// Obtener la fecha de fin de mes actual
-	var fechaFinMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1, 0);
-	
-	// Formatear las fechas en el formato "YYYY-MM-DD"
-	var fechaInicioMesFormateada = fechaInicioMes.toISOString().split('T')[0];
-	var fechaFinMesFormateada = fechaFinMes.toISOString().split('T')[0];
-	
-	console.log("Fecha de inicio del mes: " + fechaInicioMesFormateada);
-	console.log("Fecha de fin del mes: " + fechaFinMesFormateada);
-
-    function formatearFecha(fecha) {
-        const year = fecha.getFullYear();
-        const month = String(fecha.getMonth() + 1).padStart(2, '0');
-        const day = String(fecha.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`
-    }
-
-    const fechaHoy = new Date();
-    const fechaAnterior = new Date();
-
-    fechaAnterior.setDate(fechaAnterior.getDate() - 10);
-    fechaHoy.setDate(fechaHoy.getDate() + 1);
-
-    const fechaActFormateada = formatearFecha(fechaHoy);
-    const fechaAntFormateada = formatearFecha(fechaAnterior);
-
-    console.log(fechaActFormateada);
-    console.log(fechaAntFormateada);
-
-    var areaList = new Array();
-    var areaList2 = new Array();
-    var areaList3 = new Array();
-    var areaList4 = new Array();
-    var areaList5 = new Array();
-    var areaList6 = new Array();
-    var areaList7 = new Array();
-    var cantidadHoras = new Array();
-    var cantidadHoras2 = new Array();
-    var cantidadHoras3 = new Array();
-    var cantidadHoras4 = new Array();
-    var cantidadHoras5 = new Array();
-    var cantidadHoras6 = new Array();
-    var cantidadHoras7 = new Array();
-
-
-    var areaListGeneral = new Array();
-    var cantidadListGeneral = new Array();
-
-
-    var areaListProveedor = new Array();
-    var cantidadListProveedor = new Array();
-
-    console.log("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumen");
-
-    prelista();
-    prelista2();
-    prelista3();
-    prelista4();
-    contadoresAux();
-    prelistaGeneral();
-    sqaLista();
-
-    function mostrarGraficas(nomina) {
-        document.getElementById("graficasAlonso").style.display = "block";
-        prelista3(nomina);
-        prelista4(nomina);
-    }
-    
-    function sqaLista() {
-    	$.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenPendientes/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                if (data.data[i].nombre.includes('1623')) {
-                    document.getElementById('reportesAlonso').innerHTML = data.data[i].contador;
-                }
-
-                if (data.data[i].nombre.includes('1225')) {
-                    document.getElementById('reportesCarmen').innerHTML = data.data[i].contador;
-                }
-
-                if (data.data[i].nombre.includes('1183')) {
-                    document.getElementById('reportesJavier').innerHTML = data.data[i].contador;
-                }
-
-            }
-        });
-
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenConfirmados/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                if (data.data[i].nombre.includes('1623')) {
-                    document.getElementById('liberadosAlonso').innerHTML = data.data[i].contador;
-                }
-
-                if (data.data[i].nombre.includes('1225')) {
-                    document.getElementById('liberadosCarmen').innerHTML = data.data[i].contador;
-                }
-
-                if (data.data[i].nombre.includes('1183')) {
-                    document.getElementById('liberadosJavier').innerHTML = data.data[i].contador;
-                }
-
-            }
-        });
-
-	}
-
-    
-    $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenRechazados/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-        for (var i = 0; i < data.data.length; i++) {
-            if (data.data[i].nombre.includes('1623')) {
-                document.getElementById('pendientesAlonso').innerHTML = data.data[i].contador;
-            }
-
-            if (data.data[i].nombre.includes('1225')) {
-                document.getElementById('pendientesCarmen').innerHTML = data.data[i].contador;
-            }
-
-            if (data.data[i].nombre.includes('1183')) {
-                document.getElementById('pendientesJavier').innerHTML = data.data[i].contador;
-            }
-        }
-    });
-    
-    var pendientes;
-    
-    setInterval(contadoresAux, 10000);
-    	
-    function contadoresAux() {
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenP/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-                if (pendientes > data.data[0].pendientes) {
-                    // Crea un nuevo objeto Audio
-                    var audio = new Audio('img/grito.mp3');
-                    audio.play();
-                }
-                //var audio = new Audio('img/grito.mp3');
-                //audio.play();
-                document.getElementById('totalReportados').innerHTML = data.data[0].realizadas;
-                document.getElementById('totalLiberados').innerHTML = data.data[0].liberadas;
-                document.getElementById('totalPendientes').innerHTML = data.data[0].pendientes;
-                pendientes = data.data[0].pendientes;
-            }
-        });
-    }
-
-    function prelista() {
-    	
-    	
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumen/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-                areaList[i] = data.data[i].dia;
-                cantidadHoras2[i] = cadenaLimitada;
-            }
-            test(areaList, cantidadHoras2);
-        });
-    }
-
-    prelistaProveedor();
-
-    function prelistaProveedor() {
-    	areaListProveedor = [];
-    	cantidadListProveedor = [];
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/generalPreveedorResumenP/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                areaListProveedor[i] = data.data[i].nombreProveedor;
-                cantidadListProveedor[i] = data.data[i].total;
-            }
-            llenadoProveedor(areaListProveedor, cantidadListProveedor);
-        });
-    }
-
-    function llenadoProveedor(areaListProveedor, cantidadListProveedor) {
-        const $grafica = document.querySelector("#graficaProveedor");
-        const etiquetas = areaListProveedor;
-
-        const colores = [
-            'rgba(8, 85, 145)',
-            'rgba(8, 65, 145)',
-            'rgba(8, 42, 145)',
-        ];
-
-        const datosVentas2020 = {
-            label: "Proveedores con numeros de parte bloqueados",
-            data: cantidadListProveedor, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-            backgroundColor: 'rgba(8, 85, 145)', // Color de fondo
-            borderColor: 'rgba(35, 70, 140)', // Color del borde
-            borderWidth: 1,// Ancho del borde
-        };
-
-        new Chart($grafica, {
-            type: 'line',// Tipo de gráfica
-            data: {
-                labels: etiquetas,
-                datasets: [
-                    datosVentas2020,
-                    // Aquí más datos...
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }],
-                },
-            }
-        });
-
-    }
-
-    function prelistaGeneral() {
-    	areaListGeneral = [];
-    	cantidadListGeneral = [];
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/generalResumenP/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                areaListGeneral[i] = data.data[i].numeroParte;
-                cantidadListGeneral[i] = data.data[i].total;
-            }
-            llenadoGeneral(areaListGeneral, cantidadListGeneral);
-        });
-    }
-
-    function llenadoGeneral(areaListGeneral, cantidadListGeneral) {
-        const $grafica = document.querySelector("#graficaGeneral");
-        const etiquetas = areaListGeneral;
-
-        const colores = [
-            'rgba(8, 85, 145)',
-            'rgba(8, 65, 145)',
-            'rgba(8, 42, 145)',
-        ];
-
-        const datosVentas2020 = {
-            label: "Numeros de parte bloqueados",
-            data: cantidadListGeneral, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-            backgroundColor: 'rgba(8, 85, 145)', // Color de fondo
-            borderColor: 'rgba(35, 70, 140)', // Color del borde
-            borderWidth: 1,// Ancho del borde
-        };
-
-        new Chart($grafica, {
-            type: 'line',// Tipo de gráfica
-            data: {
-                labels: etiquetas,
-                datasets: [
-                    datosVentas2020,
-                    // Aquí más datos...
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }],
-                },
-            }
-        });
-
-    }
-
-    function prelista2() {
-    	
-
-    	areaList7 = [];
-    	cantidadHoras7 = [];
-        
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumenS/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-                var cadenaCompleta = data.data[i].sqa;
-                var partes = cadenaCompleta.split("-");
-                var nombreCompleto = partes[1];
-                var nombre = nombreCompleto.split(" ")[0];
-
-                var cadenaCompletaT = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var totalFormateado = parseFloat(cadenaCompletaT).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-
-                if (cadenaCompleta.includes("00001623")) {
-                    document.getElementById('costoTotalAlonso').innerHTML = "$ " + totalFormateado;
-                }
-                if (cadenaCompleta.includes("00001183")) {
-                    document.getElementById('costoTotalJavier').innerHTML = "$ " + totalFormateado;
-                }
-                if (cadenaCompleta.includes("00001225")) {
-                    document.getElementById('costoTotalCarmen').innerHTML = "$ " + totalFormateado;
-                }
-
-                areaList7[i] = nombre;
-                var cadenaCompletaT = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompletaT.substring(0, 10);
-                cantidadHoras7[i] = cadenaLimitada;
-            }
-            test4(areaList7, cantidadHoras7);
-        });
-    }
-
-
-    function prelista3(nomina) {
-
-    	areaList6 = [];
-    	cantidadHoras6 = [];
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/cuarentenaResumenPn/" + nomina +"/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-                areaList6[i] = data.data[i].numeroParte;
-                cantidadHoras6[i] = cadenaLimitada;
-            }
-            test2(areaList6, cantidadHoras6);
-        });
-    }
-
-    function prelista4(nomina) {
-    	areaList5 = [];
-    	cantidadHoras5 = [];
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/cuarentenaResumenPr/" + nomina +"/"+fechaInicioMesFormateada+"/"+fechaFinMesFormateada, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-                areaList5[i] = data.data[i].nombreProveedor;
-                cantidadHoras5[i] = cadenaLimitada;
-            }
-            test3(areaList5, cantidadHoras5);
-        });
-    }
-
-    function test(areaList, cantidadHoras2) {
-        // Obtener una referencia al elemento canvas del DOM
-        const $grafica = document.querySelector("#grafica");
-        // Las etiquetas son las que van en el eje X.
-        const etiquetas = areaList
-
-        const colores = [
-            'rgba(8, 85, 145)',
-            'rgba(9, 29, 145, 0.8)',
-            'rgba(60, 9, 145, 0.8)',
-        ];
-        
-        Chart.helpers.each(Chart.instances, function (instance) {
-            if (instance.chart.canvas.id === $grafica.id) {
-                instance.destroy();
-            }
-        });
-
-        const datosVentas2020 = {
-            label: "Material Bloqueado",
-            data: cantidadHoras2, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-            backgroundColor: 'rgba(8, 85, 145)', // Color de fondo
-            borderColor: 'rgba(35, 70, 140)', // Color del borde
-            borderWidth: 1,// Ancho del borde
-        };
-
-
-        new Chart($grafica, {
-            type: 'line',// Tipo de gráfica
-            data: {
-                labels: etiquetas,
-                datasets: [
-                    datosVentas2020,
-                    // Aquí más datos...
-                ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }],
-                },
-            }
-        });
-
-    }
-
-
-    function test2(areaList3, cantidadHoras3) {
-        const $grafica = document.querySelector("#grafica2");
-        const etiquetasZona = areaList3;
-
-        const colores = [
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-        ];
-
-        Chart.helpers.each(Chart.instances, function (instance) {
-            if (instance.chart.canvas.id === $grafica.id) {
-                instance.destroy();
-            }
-        });
-
-        const datosZona = {
-            label: "Numeros de parte bloqueados",
-            data: cantidadHoras3, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-            backgroundColor: colores,// Color de fondo
-            //borderColor: 'rgba(217, 83, 79, 0.8)',// Color del borde
-            borderWidth: 1,// Ancho del borde
-        };
-
-        new Chart($grafica, {
-            type: 'bar',// Tipo de gráfica
-            data: {
-                labels: etiquetasZona,
-                datasets: [
-                    datosZona,
-                    // Aquí más datos...
-                ]
-            },
-            options: {
-
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }],
-                },
-            }
-        });
-
-    }
-
-
-    function test3(areaList3, cantidadHoras3) {
-        const $grafica = document.querySelector("#grafica4");
-        const etiquetasZona = areaList3;
-
-        const colores = [
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-            '#E9E6DD',
-            '#003D70',
-            '#69A032',
-        ];
-
-        Chart.helpers.each(Chart.instances, function (instance) {
-            if (instance.chart.canvas.id === $grafica.id) {
-                instance.destroy();
-            }
-        });
-
-        // Podemos tener varios conjuntos de datos
-        const datosZona = {
-            label: "Costo total por proveedor",
-            data: cantidadHoras3, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-            backgroundColor: colores,// Color de fondo
-            //borderColor: 'rgba(217, 83, 79, 0.8)',// Color del borde
-            borderWidth: 1,// Ancho del borde
-        };
-
-
-        new Chart($grafica, {
-            type: 'bar',// Tipo de gráfica
-            data: {
-                labels: etiquetasZona,
-                datasets: [datosZona]
-            },
-        });
-
-    }
-
-    function test4(areaList4, cantidadHoras4) {
-        // Obtener una referencia al elemento canvas del DOM
-        const $grafica = document.querySelector("#grafica3");
-        // Las etiquetas son las que van en el eje X.
-        const etiquetasZona = areaList4;
-        // Podemos tener varios conjuntos de datos
-        const colores = [
-            '#195275',
-            '#7EC9F7',
-            '#33ABF5',
-            // Agrega más colores aquí según la cantidad de etiquetas
-        ];
-
-        const datosZona = {
-            data: cantidadHoras4,
-            backgroundColor: colores, // Usar colores diferentes para cada sector
-            borderColor: colores,
-            borderWidth: 1,
-        };
-
-        new Chart($grafica, {
-            type: 'doughnut',
-            data: {
-                labels: etiquetasZona,
-                datasets: [datosZona],
-            },
-        });
-    }
-
-    function informacionUser(nomina) {
-        document.getElementById("datosAux").innerHTML = '';
-        $.getJSON('https://arketipo.mx/GembaWalk/DashBoar/DaoInformacionUser.php?nomina=' + nomina, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                $('#datosAux').append('<div class="panel panel-danger">\n' +
-                    '                    <div style="BACKGROUND: #005195;color: white;" class="panel-body" id="txtArea">\n' +
-                    '                        ' + data.data[i].Area + '' +
-                    '                    </div>\n' +
-                    '                    <div class="panel-footer">\n' +
-                    '                        \n' +
-                    '                            <ul>Problema : ' + data.data[i].Problema + '</ul>\n' +
-                    '                            <ul>Fecha : ' + data.data[i].Fecha + '</ul>\n' +
-                    '                            <ul>Zona : ' + data.data[i].Zona + '</ul>\n' +
-                    '                            <ul>Comentarios : ' + data.data[i].Otros + '</ul>\n' +
-                    '                            <ul><a href="https://arketipo.mx/GembaWalk/DashBoar/consulta.html?id=' + data.data[i].IdRegistro + '"  target="_blank">Ver detalles</a></ul>\n' +
-                    '                        \n' +
-                    '                    </div>\n' +
-                    '                </div>');
-            }
-            accionModal();
-        });
-    }
-
-    function accionModal() {
-        document.getElementById("btnModal").click();
-    }
-    
-    //BOTONES
-    
-    function prelistaBoton() {
-    	
-    	var fechaInicio = document.getElementById("txtFechaInicio");
-    	var fechaFinal = document.getElementById("txtFechaFinal");
-    	
-    	console.log(document.getElementById("mesSeleccionadoInicial").value);
-    	console.log(document.getElementById("mesSeleccionadoFinal").value);
-    	
-    	areaList = [];
-        cantidadHoras2 = [];
-        
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenP/"+fechaInicio.value+"/"+fechaFinal.value, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-                document.getElementById('totalReportados').innerHTML = data.data[0].realizadas;
-                document.getElementById('totalLiberados').innerHTML = data.data[0].liberadas;
-                document.getElementById('totalPendientes').innerHTML = data.data[0].pendientes;
-            }
-        });
-    	
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumen/"+fechaInicio.value+"/"+fechaFinal.value, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-                areaList[i] = data.data[i].dia;
-                cantidadHoras2[i] = cadenaLimitada;
-            }
-            test(areaList, cantidadHoras2);
-        });
-        
-    }
-    
-function prelistaBotonMeses() {
-    	
-    	var fechaInicio = document.getElementById("mesSeleccionadoInicial");
-    	var fechaFinal = document.getElementById("mesSeleccionadoFinal");
-    	
-    	console.log(document.getElementById("mesSeleccionadoInicial").value);
-    	console.log(document.getElementById("mesSeleccionadoFinal").value);
-
-    	areaList = [];
-        cantidadHoras2 = [];
-    	
-        $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumenMeses/"+fechaInicio.value+"/"+fechaFinal.value, function (data) {
-            for (var i = 0; i < data.data.length; i++) {
-
-                var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-                var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-                areaList[i] = data.data[i].dia;
-                cantidadHoras2[i] = cadenaLimitada;
-            }
-            test(areaList, cantidadHoras2);
-        });
-        
-    }
-    
-function prelistaBotonSemanas() {
-	
-	var semanaInput = document.getElementById('semanaSeleccionada');
-	var semanaValue = semanaInput.value;
-
-	// El valor de semana tiene el formato "YYYY-Www"
-	// Separar el año y el número de semana
-	var partes = semanaValue.split('-W');
-	var año = partes[0];
-	var numeroSemana = partes[1];
-
-	// Calcular las fechas de inicio y fin de la semana
-	var fechaInicio = new Date(año, 0, 1 + (numeroSemana - 1) * 7);
-	var fechaFin = new Date(año, 0, 1 + (numeroSemana - 1) * 7 + 6);
-
-	console.log("Fecha de inicio:", fechaInicio.toISOString().split('T')[0]);
-	console.log("Fecha de fin:", fechaFin.toISOString().split('T')[0]);
-	
-	$.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/contadorResumenP/"+fechaInicio.toISOString().split('T')[0]+"/"+fechaFin.toISOString().split('T')[0], function (data) {
-        for (var i = 0; i < data.data.length; i++) {
-            document.getElementById('totalReportados').innerHTML = data.data[0].realizadas;
-            document.getElementById('totalLiberados').innerHTML = data.data[0].liberadas;
-            document.getElementById('totalPendientes').innerHTML = data.data[0].pendientes;
-        }
+    var conversionPesos=0;
+    var conversionDolar=0;
+
+    $.getJSON('https://api.exchangerate-api.com/v4/latest/MXN', function(data) {
+        conversionPesos = data.rates.EUR;
+        console.log(conversionPesos);
     });
 
-	areaList = [];
-    cantidadHoras2 = [];
-	
-    $.getJSON("http://" + window.location.host + "/Cuarentena/rest/reporte/comedorResumen/"+fechaInicio.toISOString().split('T')[0]+"/"+fechaFin.toISOString().split('T')[0], function (data) {
-        for (var i = 0; i < data.data.length; i++) {
-
-            var cadenaCompleta = data.data[i].total; // Supongamos que esta es tu cadena completa
-            var cadenaLimitada = cadenaCompleta.substring(0, 5);
-
-            areaList[i] = data.data[i].dia;
-            cantidadHoras2[i] = cadenaLimitada;
-        }
-        test(areaList, cantidadHoras2);
+    $.getJSON('https://api.exchangerate-api.com/v4/latest/USD', function(data) {
+        conversionDolar = data.rates.EUR;
+        console.log(conversionDolar);
     });
-    
-}
 
-function botonGeneral() {
-	
-	var fechaInicio = document.getElementById("rangoInicial");
-	var fechaFinal = document.getElementById("rangoFinal");
-	
-	fechaInicioMesFormateada = fechaInicio.value;
+    Apu()
+    function Apu() {
+        $.getJSON('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaGeneral.php', function (data) {
 
-	fechaFinMesFormateada = fechaFinal.value;
-	
-	prelista2();
-	prelistaGeneral();
-	prelistaProveedor();
-	contadoresAux();
-	sqaLista();
-    
-}
+            var noRecovery = 0, supplier = 0, icSupplier = 0, custumer = 0, icCustumer = 0,
+            forwarder = 0;
 
-    
-    
+            for (var i = 0; i < data.data.length; i++) {
+                if (data.data[i].MONEDA === "MXN"){
+                    if (data.data[i].RECOVERY === 'NO RECOVERY') {
+                        noRecovery = data.data[i].SUMA*conversionPesos;
+                    }
+                    if (data.data[i].RECOVERY === 'SUPPLIER') {
+                        supplier = data.data[i].SUMA*conversionPesos;
+                    }
+                    if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
+                        icSupplier = data.data[i].SUMA*conversionPesos;
+                    }
+                    if (data.data[i].RECOVERY === 'CUSTOMER') {
+                        custumer = data.data[i].SUMA*conversionPesos;
+                    }
+                    if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
+                        icCustumer = data.data[i].SUMA*conversionPesos;
+                    }
+                    if (data.data[i].RECOVERY === 'FORWARDER') {
+                        forwarder = data.data[i].SUMA*conversionPesos;
+                    }
+                }
 
+                if (data.data[i].Encargado === "USD"){
+                    if (data.data[i].RECOVERY === 'NO RECOVERY') {
+                        noRecovery = data.data[i].SUMA*conversionDolar;
+                    }
+                    if (data.data[i].RECOVERY === 'SUPPLIER') {
+                        supplier = data.data[i].SUMA*conversionDolar;
+                    }
+                    if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
+                        icSupplier = data.data[i].SUMA*conversionDolar;
+                    }
+                    if (data.data[i].RECOVERY === 'CUSTOMER') {
+                        custumer = data.data[i].SUMA*conversionDolar;
+                    }
+                    if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
+                        icCustumer = data.data[i].SUMA*conversionDolar;
+                    }
+                    if (data.data[i].RECOVERY === 'FORWARDER') {
+                        forwarder = data.data[i].SUMA*conversionDolar;
+                    }
+                }
+
+            }
+            graficaAusentismosApu(noRecovery,supplier ,icSupplier ,custumer ,icCustumer ,forwarder);
+        });
+    }
+
+    function graficaAusentismosApu(noRecovery,supplier ,icSupplier ,custumer ,icCustumer ,forwarder) {
+        var options = {
+            series: [{
+                name: 'Generales',
+                data: [noRecovery, supplier, icSupplier, custumer, icCustumer, forwarder]
+            }
+            ],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '65%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 5,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['NO RECOVERY', 'SUPPLIER', 'IC-SUPPLIER', 'CUSTUMER', 'IC-CUSTUMER', 'FORWARDER'],
+            },
+            yaxis: {
+                title: {
+                    text: 'Personas'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return " " + val + " personas"
+                    }
+                }
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#areaChartApu"), options);
+        chart.render();
+    }
 
 </script>
 </body>
