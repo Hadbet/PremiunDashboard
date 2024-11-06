@@ -235,17 +235,14 @@
         </div>
     </div>
     <br>
-    <div class="analytics-sparkle-area">
+
+    <div class="product-sales-area mg-tb-30">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
-                        <div class="analytics-content">
-                            <h5 style="color:white !important;">Grafica General del Año</h5>
-                            <div class="map-box">
-                                <div id="areaChartApu"></div>
-                            </div>
-                        </div>
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                    <h5 style="color:white !important;">Grafica General del Año</h5>
+                    <div class="single-cards-item">
+                        <div id="areaChartApu"></div>
                     </div>
                 </div>
             </div>
@@ -339,6 +336,8 @@
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <script>
 
 
@@ -377,43 +376,43 @@
             for (var i = 0; i < data.data.length; i++) {
                 if (data.data[i].MONEDA === "MXN"){
                     if (data.data[i].RECOVERY === 'NO RECOVERY') {
-                        noRecovery = data.data[i].SUMA*conversionPesos;
+                        noRecovery = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'SUPPLIER') {
-                        supplier = data.data[i].SUMA*conversionPesos;
+                        supplier = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
-                        icSupplier = data.data[i].SUMA*conversionPesos;
+                        icSupplier = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'CUSTOMER') {
-                        custumer = data.data[i].SUMA*conversionPesos;
+                        custumer = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
-                        icCustumer = data.data[i].SUMA*conversionPesos;
+                        icCustumer = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'FORWARDER') {
-                        forwarder = data.data[i].SUMA*conversionPesos;
+                        forwarder = +(data.data[i].SUMA*conversionPesos).toFixed(2);
                     }
                 }
 
                 if (data.data[i].Encargado === "USD"){
                     if (data.data[i].RECOVERY === 'NO RECOVERY') {
-                        noRecovery = data.data[i].SUMA*conversionDolar;
+                        noRecovery = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'SUPPLIER') {
-                        supplier = data.data[i].SUMA*conversionDolar;
+                        supplier = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
-                        icSupplier = data.data[i].SUMA*conversionDolar;
+                        icSupplier = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'CUSTOMER') {
-                        custumer = data.data[i].SUMA*conversionDolar;
+                        custumer = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
-                        icCustumer = data.data[i].SUMA*conversionDolar;
+                        icCustumer = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                     if (data.data[i].RECOVERY === 'FORWARDER') {
-                        forwarder = data.data[i].SUMA*conversionDolar;
+                        forwarder = +(data.data[i].SUMA*conversionDolar).toFixed(2);
                     }
                 }
 
@@ -453,7 +452,7 @@
             },
             yaxis: {
                 title: {
-                    text: 'Personas'
+                    text: 'EUR'
                 }
             },
             fill: {
@@ -462,7 +461,7 @@
             tooltip: {
                 y: {
                     formatter: function (val) {
-                        return " " + val + " personas"
+                        return " " + val + " EUR"
                     }
                 }
             }
