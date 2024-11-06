@@ -157,42 +157,6 @@
 
 <div class="all-content-wrapper">
     <center><img src="img/pf.png" style="width:70% ;"></center>
-    <div class="analytics-sparkle-area">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
-                        <div class="analytics-content">
-                            <h5 style="color:white !important;">Rango de fecha</h5>
-                            <input id="txtFechaInicio" type="date">
-                            <input id="txtFechaFinal" type="date">
-                            <button onclick="prelistaBoton()">Buscar</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
-                        <div class="analytics-content">
-                            <h5 style="color:white !important;">Meses</h5>
-                            <input type="month" id="mesSeleccionadoInicial" name="mesSeleccionado">
-                            <input type="month" id="mesSeleccionadoFinal" name="mesSeleccionado">
-                            <button onclick="prelistaBotonMeses()">Buscar</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                    <div class="analytics-sparkle-line reso-mg-b-30 table-mg-t-pro dk-res-t-pro-30"
-                         style="background: #085591;">
-                        <div class="analytics-content">
-                            <h5 style="color:white !important;">Semanas</h5>
-                            <input type="week" id="semanaSeleccionada" name="semanaSeleccionada"
-                                   onchange="prelistaBotonSemanas()">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -237,9 +201,10 @@
     <br>
 
     <div class="product-sales-area mg-tb-30">
+
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h5 style="color:white !important;">Grafica General del Año</h5>
                     <div class="single-cards-item">
                         <div id="areaChartApu"></div>
@@ -247,13 +212,89 @@
                 </div>
             </div>
 
+            <hr>
+            <br>
             <div class="row">
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                    <h5 style="color:white !important;">Grafica Detallada</h5>
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <h1 >Grafica Detallada</h1>
+                    <label>Selecciona el tipo</label>
+                    <br>
+                    <select class="form-control form-control-lg mr-sm-2 bg-transparent" id="cbTipo"
+                            onchange="graficaDetallada()">
+                        <option selected>Abrir menu</option>
+                        <option value="NO RECOVERY" >NO RECOVERY</option>
+                        <option value="SUPPLIER" >SUPPLIER</option>
+                        <option value="IC-SUPPLIER" >IC-SUPPLIER</option>
+                        <option value="CUSTOMER" >CUSTOMER</option>
+                        <option value="IC-CUSTOMER" >IC-CUSTOMER</option>
+                        <option value="FORWARDER" >FORWARDER</option>
+                    </select>
+                    <br><br>
                     <div class="single-cards-item">
                         <div id="areaDetallada"></div>
                     </div>
                 </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30 table-mg-t-pro dk-res-t-pro-30"
+                         style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">Costo por meses</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanEnero">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Enero
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanFebrero">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Febrero
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanMarzo">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Marzo
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanAbril">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Abril
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanMayo">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Mayo
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanJunio">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Junio
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanJulio">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Julio
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanAgosto">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Agosto
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanSeptiembre">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Septiembre
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanOctubre">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Octubre
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanNoviembre">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Noviembre
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanDiciembre">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Diciembre
+                                    </span></h2>
+
+                            <h2 style="color:white !important;"><span class="" id="spanTotal">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">Total
+                                    </span></h2>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -480,10 +521,10 @@
         chart.render();
     }
 
+    function graficaDetallada() {
 
+        var tipo = document.getElementById("cbTipo").value;
 
-    graficaDetallada("SUPPLIER");
-    function graficaDetallada(tipo) {
         $.getJSON('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaDetallada.php?tipo='+tipo, function (data) {
 
             var Ene1 = 0, Feb1 = 0, Mar1 = 0, Abril1 = 0, May1 = 0, Jun1 = 0, Jul1 = 0, Ago1 = 0,
@@ -491,97 +532,132 @@
 
             for (var i = 0; i < data.data.length; i++) {
 
-                    if (data.data[i].Mes === '1') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Ene1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Ene1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                if (data.data[i].Mes === '1') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Ene1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Ene1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '2') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Feb1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Feb1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '2') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Feb1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Feb1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '3') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Mar1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Mar1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '3') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Mar1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Mar1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '4') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Abril1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Abril1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '4') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Abril1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Abril1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '5') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            May1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            May1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '5') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        May1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        May1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '6') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Jun1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Jun1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '6') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Jun1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Jun1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '7') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Jul1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Jul1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '7') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Jul1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Jul1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '8') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Ago1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Ago1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '8') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Ago1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Ago1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '9') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Sep1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Sep1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '9') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Sep1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Sep1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '10') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Oct1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Oct1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '10') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Oct1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Oct1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '11') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Nov1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Nov1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '11') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Nov1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Nov1 += data.data[i].SUMA*conversionDolar;
                     }
-                    if (data.data[i].Mes === '12') {
-                        if (data.data[i].MONEDA === 'MXN'){
-                            Dic1 += +(data.data[i].SUMA*conversionPesos).toFixed(2);
-                        }else{
-                            Dic1 += +(data.data[i].SUMA*conversionDolar).toFixed(2);
-                        }
+                }
+                if (data.data[i].Mes === '12') {
+                    if (data.data[i].MONEDA === 'MXN'){
+                        Dic1 += data.data[i].SUMA*conversionPesos;
+                    }else{
+                        Dic1 += data.data[i].SUMA*conversionDolar;
                     }
+                }
 
             }
+
+            // Aplicar toFixed(2) a cada mes
+            Ene1 = Ene1.toFixed(2);
+            Feb1 = Feb1.toFixed(2);
+            Mar1 = Mar1.toFixed(2);
+            Abril1 = Abril1.toFixed(2);
+            May1 = May1.toFixed(2);
+            Jun1 = Jun1.toFixed(2);
+            Jul1 = Jul1.toFixed(2);
+            Ago1 = Ago1.toFixed(2);
+            Sep1 = Sep1.toFixed(2);
+            Oct1 = Oct1.toFixed(2);
+            Nov1 = Nov1.toFixed(2);
+            Dic1 = Dic1.toFixed(2);
+
+            document.getElementById("spanEnero").innerText = parseFloat(Ene1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanFebrero").innerText = parseFloat(Feb1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanMarzo").innerText = parseFloat(Mar1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanAbril").innerText = parseFloat(Abril1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanMayo").innerText = parseFloat(May1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanJunio").innerText = parseFloat(Jun1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanJulio").innerText = parseFloat(Jul1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanAgosto").innerText = parseFloat(Ago1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanSeptiembre").innerText = parseFloat(Sep1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanOctubre").innerText = parseFloat(Oct1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanNoviembre").innerText = parseFloat(Nov1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanDiciembre").innerText = parseFloat(Dic1).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+
+            document.getElementById("spanTotal").innerText = (parseFloat(Ene1) + parseFloat(Feb1) + parseFloat(Mar1) + parseFloat(Abril1) + parseFloat(May1) + parseFloat(Jun1) + parseFloat(Jul1) + parseFloat(Ago1) + parseFloat(Sep1) + parseFloat(Oct1) + parseFloat(Nov1) + parseFloat(Dic1)).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+
             graficaDetalle(Ene1, Feb1, Mar1, Abril1, May1, Jun1, Jul1, Ago1, Sep1, Oct1, Nov1, Dic1);
         });
     }
-
+    var chartDetallada;
     function graficaDetalle(Ene1, Feb1, Mar1, Abril1, May1, Jun1, Jul1, Ago1, Sep1, Oct1, Nov1, Dic1) {
+
+        if (chartDetallada) {
+            chartDetallada.destroy();
+        }
+
         var options = {
             series: [{
                 name: 'Meses',
@@ -609,6 +685,7 @@
             },
             xaxis: {
                 categories: ['Ene', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dic'],
+
             },
             yaxis: {
                 title: {
@@ -626,8 +703,8 @@
                 }
             }
         };
-        var chart = new ApexCharts(document.querySelector("#areaDetallada"), options);
-        chart.render();
+        chartDetallada = new ApexCharts(document.querySelector("#areaDetallada"), options);
+        chartDetallada.render();
     }
 
 </script>
