@@ -162,6 +162,16 @@
 
     <div class="analytics-sparkle-area">
         <div class="container-fluid">
+
+            <select class="form-control form-control-lg mr-sm-2 bg-transparent" id="cbFiltro"
+                    onchange="Apu()">
+                <option value="TODO" selected>Todo</option>
+                <option value="PO45" >PO 45</option>
+                <option value="OTROS" >Otros PO</option>
+            </select>
+
+            <br>
+
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
@@ -204,12 +214,70 @@
 
         <div class="container-fluid">
             <div class="row">
+
+
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h5 style="color:white !important;">Grafica General del Año</h5>
                     <div class="single-cards-item">
                         <div id="areaChartApu"></div>
                     </div>
                 </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">NO RECOVERY</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanNoRecovery">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">SUPPLIER</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanSupplier">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">IC-SUPPLIER</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanIcSupplier">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">CUSTOMER</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanCustomer">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">IC-CUSTOMER</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanIcCustomer">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
+                        <div class="analytics-content">
+                            <h5 style="color:white !important;">FORWARDER</h5>
+                            <h2 style="color:white !important;"><span class="" id="spanForwarder">0</span> <span
+                                    style="color:white !important;" class="tuition-fees">euros</span></h2>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <hr>
@@ -417,9 +485,9 @@
         console.log(conversionDolar);
     });
 
-    Apu()
+    Apu();
     function Apu() {
-        $.getJSON('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaGeneral.php', function (data) {
+        $.getJSON('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaGeneral.php?filtro='+document.getElementById("cbFiltro").value, function (data) {
 
             var noRecovery = 0, supplier = 0, icSupplier = 0, custumer = 0, icCustumer = 0,
             forwarder = 0;
@@ -468,11 +536,26 @@
                 }
 
             }
+
+            document.getElementById("spanNoRecovery").innerText = parseFloat(noRecovery).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanSupplier").innerText = parseFloat(supplier).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanIcSupplier").innerText = parseFloat(icSupplier).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanCustomer").innerText = parseFloat(custumer).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanIcCustomer").innerText = parseFloat(icCustumer).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+            document.getElementById("spanForwarder").innerText = parseFloat(forwarder).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+
             graficaAusentismosApu(noRecovery,supplier ,icSupplier ,custumer ,icCustumer ,forwarder);
         });
     }
 
+    var chart;
+
     function graficaAusentismosApu(noRecovery,supplier ,icSupplier ,custumer ,icCustumer ,forwarder) {
+
+        if (chart) {
+            chart.destroy();
+        }
+
         var options = {
             series: [{
                 name: 'Generales',
@@ -517,7 +600,7 @@
                 }
             }
         };
-        var chart = new ApexCharts(document.querySelector("#areaChartApu"), options);
+        chart = new ApexCharts(document.querySelector("#areaChartApu"), options);
         chart.render();
     }
 
