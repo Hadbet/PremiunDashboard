@@ -11,7 +11,13 @@ function ContadorApu($tipo)
     $con = new LocalConector();
     $conex = $con->conectar();
 
-    $datos = mysqli_query($conex, "SELECT `RECOVERY`, SUM(`Q_COST`) as SUMA, `MONEDA`, MONTH(`FECHA_INS`) as Mes FROM `PREMIUM` WHERE ESTATUS = 'C' AND `RECOVERY` = '$tipo' GROUP BY `RECOVERY`, `MONEDA`, Mes;
+    if ($tipo=='TODO'){
+        $query="1=1";
+    }else{
+        $query="`RECOVERY` = '$tipo'";
+    }
+
+    $datos = mysqli_query($conex, "SELECT `RECOVERY`, SUM(`Q_COST`) as SUMA, `MONEDA`, MONTH(`FECHA_INS`) as Mes FROM `PREMIUM` WHERE ESTATUS = 'C' AND $query GROUP BY `RECOVERY`, `MONEDA`, Mes;
 ");
 
     $resultado = mysqli_fetch_all($datos, MYSQLI_ASSOC);
