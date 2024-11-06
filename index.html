@@ -216,13 +216,19 @@
             <div class="row">
 
 
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h5 style="color:white !important;">Grafica General del Año</h5>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <div class="single-cards-item">
                         <div id="areaChartApu"></div>
                     </div>
                 </div>
 
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="single-cards-item">
+                        <div id="area"></div>
+                    </div>
+                </div>
+
+                <br><br>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                     <div class="analytics-sparkle-line reso-mg-b-30" style="background: #085591;">
                         <div class="analytics-content">
@@ -283,6 +289,10 @@
             <hr>
             <br>
             <div class="row">
+
+
+
+
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                     <h1 >Grafica Detallada</h1>
                     <label>Selecciona el tipo</label>
@@ -362,6 +372,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
             </div>
 
@@ -469,6 +481,37 @@
                 document.getElementById('totalRechazados').innerHTML = data.data[i].CountR;
                 document.getElementById('totalConfirmados').innerHTML = data.data[i].CountC;
             }
+        });
+    }
+    contadoresAreas();
+    function contadoresAreas() {
+        $.getJSON("https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaAreas.php", function (data) {
+            var areas = {};
+            for (var i = 0; i < data.data.length; i++) {
+                var area = data.data[i].AREA;
+                var suma = parseFloat(data.data[i].SUMA);
+                var moneda = data.data[i].MONEDA;
+
+                if (moneda === "MXN") {
+                    suma = suma * conversionPesos;
+                } else if (moneda === "USD") {
+                    suma = suma * conversionDolar;
+                }
+
+                if (areas[area]) {
+                    areas[area] += suma;
+                } else {
+                    areas[area] = suma;
+                }
+            }
+
+            var labels = Object.keys(areas);
+            var values = Object.values(areas);
+
+            console.log(labels); // Esto imprimirá los labels (AREAS)
+            console.log(values); // Esto imprimirá los valores (SUMAS convertidas y sumadas)
+            areasChart(labels,values);
+            // Aquí puedes hacer lo que necesites con los labels y values
         });
     }
 
@@ -788,6 +831,50 @@
         };
         chartDetallada = new ApexCharts(document.querySelector("#areaDetallada"), options);
         chartDetallada.render();
+    }
+
+    var chartArea;
+
+    function areasChart(labels,valores) {
+
+        if (chartArea) {
+            chartArea.destroy();
+        }
+
+        var options = {
+            series: valores,
+            chart: {
+                width: 450,
+                type: 'polarArea'
+            },
+            labels: labels,
+            fill: {
+                opacity: 1
+            },
+            stroke: {
+                width: 1,
+                colors: undefined
+            },
+            yaxis: {
+                show: false
+            },
+            legend: {
+                position: 'bottom'
+            },
+            plotOptions: {
+                polarArea: {
+                    rings: {
+                        strokeWidth: 0
+                    },
+                    spokes: {
+                        strokeWidth: 0
+                    },
+                }
+            }
+        };
+
+        chartArea = new ApexCharts(document.querySelector("#area"), options);
+        chartArea.render();
     }
 
 </script>
