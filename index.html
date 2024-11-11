@@ -472,6 +472,32 @@
 
 <script>
 
+    var conversionPesos=0;
+    var conversionDolar=0;
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function getConversionRates() {
+
+        await $.getJSON('https://api.exchangerate-api.com/v4/latest/MXN', function(data) {
+            conversionPesos = data.rates.EUR;
+            console.log(conversionPesos);
+        });
+
+        await sleep(2000); // Espera 2 segundos
+
+        await $.getJSON('https://api.exchangerate-api.com/v4/latest/USD', function(data) {
+            conversionDolar = data.rates.EUR;
+            console.log(conversionDolar);
+        });
+
+        await sleep(2000); // Espera 2 segundos
+    }
+
+    getConversionRates();
+
 
 
     contadoresIniciales();
@@ -499,6 +525,8 @@
                     suma = suma * conversionDolar;
                 }
 
+                suma = Math.round(suma);
+
                 if (areas[area]) {
                     areas[area] += suma;
                 } else {
@@ -515,19 +543,6 @@
             // Aquí puedes hacer lo que necesites con los labels y values
         });
     }
-
-    var conversionPesos=0;
-    var conversionDolar=0;
-
-    $.getJSON('https://api.exchangerate-api.com/v4/latest/MXN', function(data) {
-        conversionPesos = data.rates.EUR;
-        console.log(conversionPesos);
-    });
-
-    $.getJSON('https://api.exchangerate-api.com/v4/latest/USD', function(data) {
-        conversionDolar = data.rates.EUR;
-        console.log(conversionDolar);
-    });
 
     Apu();
     function Apu() {
@@ -846,7 +861,7 @@
             series: valores,
             chart: {
                 width: 450,
-                type: 'polarArea'
+                type: 'pie'
             },
             labels: labels,
             fill: {
