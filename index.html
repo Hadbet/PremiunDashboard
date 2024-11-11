@@ -486,21 +486,26 @@
             console.log(conversionPesos);
         });
 
-        await sleep(2000); // Espera 2 segundos
+        await sleep(250);
 
         await $.getJSON('https://api.exchangerate-api.com/v4/latest/USD', function(data) {
             conversionDolar = data.rates.EUR;
             console.log(conversionDolar);
         });
 
-        await sleep(2000); // Espera 2 segundos
+        await sleep(250);
     }
 
-    getConversionRates();
+    async function main() {
+        await getConversionRates();
 
+        contadoresIniciales();
+        contadoresAreas();
+        Apu();
+    }
 
+    main();
 
-    contadoresIniciales();
     function contadoresIniciales() {
         $.getJSON("https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaContadores.php", function (data) {
             for (var i = 0; i < data.data.length; i++) {
@@ -510,7 +515,6 @@
             }
         });
     }
-    contadoresAreas();
     function contadoresAreas() {
         $.getJSON("https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaAreas.php", function (data) {
             var areas = {};
@@ -544,8 +548,9 @@
         });
     }
 
-    Apu();
     function Apu() {
+
+        console.log('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaGeneral.php?filtro='+document.getElementById("cbFiltro").value);
         $.getJSON('https://grammermx.com/Programas/Trafico/DashBoard/dao/consultaGeneral.php?filtro='+document.getElementById("cbFiltro").value, function (data) {
 
             var noRecovery = 0, supplier = 0, icSupplier = 0, custumer = 0, icCustumer = 0,
@@ -554,47 +559,55 @@
             for (var i = 0; i < data.data.length; i++) {
                 if (data.data[i].MONEDA === "MXN"){
                     if (data.data[i].RECOVERY === 'NO RECOVERY') {
-                        noRecovery = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        noRecovery += data.data[i].SUMA*conversionPesos;
                     }
                     if (data.data[i].RECOVERY === 'SUPPLIER') {
-                        supplier = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        supplier += data.data[i].SUMA*conversionPesos;
                     }
                     if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
-                        icSupplier = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        icSupplier += data.data[i].SUMA*conversionPesos;
                     }
                     if (data.data[i].RECOVERY === 'CUSTOMER') {
-                        custumer = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        custumer += data.data[i].SUMA*conversionPesos;
                     }
                     if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
-                        icCustumer = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        icCustumer += data.data[i].SUMA*conversionPesos;
                     }
                     if (data.data[i].RECOVERY === 'FORWARDER') {
-                        forwarder = +(data.data[i].SUMA*conversionPesos).toFixed(2);
+                        forwarder += data.data[i].SUMA*conversionPesos;
                     }
                 }
 
-                if (data.data[i].Encargado === "USD"){
+                if (data.data[i].MONEDA === "USD"){
                     if (data.data[i].RECOVERY === 'NO RECOVERY') {
-                        noRecovery = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        noRecovery += data.data[i].SUMA*conversionDolar;
                     }
                     if (data.data[i].RECOVERY === 'SUPPLIER') {
-                        supplier = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        supplier += data.data[i].SUMA*conversionDolar;
                     }
                     if (data.data[i].RECOVERY === 'IC-SUPPLIER') {
-                        icSupplier = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        icSupplier += data.data[i].SUMA*conversionDolar;
                     }
                     if (data.data[i].RECOVERY === 'CUSTOMER') {
-                        custumer = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        custumer += data.data[i].SUMA*conversionDolar;
                     }
                     if (data.data[i].RECOVERY === 'IC-CUSTOMER') {
-                        icCustumer = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        icCustumer += data.data[i].SUMA*conversionDolar;
                     }
                     if (data.data[i].RECOVERY === 'FORWARDER') {
-                        forwarder = +(data.data[i].SUMA*conversionDolar).toFixed(2);
+                        forwarder += data.data[i].SUMA*conversionDolar;
                     }
                 }
 
             }
+            noRecovery = noRecovery.toFixed(2);
+            supplier = supplier.toFixed(2);
+            icSupplier = icSupplier.toFixed(2);
+            custumer = custumer.toFixed(2);
+            icCustumer = icCustumer.toFixed(2);
+            forwarder = forwarder.toFixed(2);
+
+            console.log(noRecovery);
 
             document.getElementById("spanNoRecovery").innerText = parseFloat(noRecovery).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
             document.getElementById("spanSupplier").innerText = parseFloat(supplier).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
@@ -861,7 +874,7 @@
             series: valores,
             chart: {
                 width: 450,
-                type: 'pie'
+                type: 'donut'
             },
             labels: labels,
             fill: {
